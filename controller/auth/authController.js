@@ -103,3 +103,69 @@ exports.forgotPassword = async (req, res) => {
   })
 
 }
+
+module.exports.verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    return res.status(400).json({
+      status: "failed",
+      message: "otp field cannot be empty"
+    })
+  }
+
+  const userExists = await User.find({ userEmail: email })
+
+  if (userExists.length === 0) {
+    // user not found
+    return res.status(400).json({
+      status: "Failed",
+      message: "User not found"
+    })
+  }
+
+  if (userExists[0].otp === otp) {
+    userExists[0].otp = undefined;
+    res.status(200).json({
+      status: "success",
+      message: "OTP verified"
+    })
+  } else {
+    res.status(400).json({
+      status: "failed",
+      message: "Invalid Email"
+    })
+  }
+
+}
+
+module.exports.resetPassword = async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
+  if (!email, !newPassword, !confirmPassword) {
+    return res.status(400).json({
+      status: "Failed",
+      message: "passwords field can not be empty "
+    })
+  }
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({
+      status: "failed",
+      message: "newpassword and confirm password did not matched"
+    })
+  }
+  const userExists = await User.find({ userEmail: email })
+  if (userExists.length == 0) {
+    return res.status(400).json({
+      status: "failed",
+      message: "user not registered"
+    })
+  }
+
+  userExists[0].userPassword = bcrypt.hashSync(newPassword, 100)
+
+  await userExists[0].save()
+  res.status(200).json({
+    status: "success",
+    message: "password updated"
+  })
+}
