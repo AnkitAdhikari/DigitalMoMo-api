@@ -3,7 +3,10 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 const restrictTo = require("../middleware/restrictTo");
 
 const router = require("express").Router()
+const { multer, storage } = require('../middleware/multerConfig')
 
-router.route('/createProduct').post(isAuthenticated, restrictTo('admin', 'super-admin'), createProduct);
+const upload = multer({ storage: storage })
+
+router.route('/createProduct').post(isAuthenticated, restrictTo('admin', 'super-admin'), upload.single('productImage'), createProduct);
 
 module.exports = router;

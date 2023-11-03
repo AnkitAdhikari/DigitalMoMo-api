@@ -6,7 +6,7 @@ const isAuthenticated = async (req, res, next) => {
   const token = req.headers.authorization
 
   if (!token) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "failed",
       message: "login required"
     })
