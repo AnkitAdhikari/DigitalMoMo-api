@@ -161,7 +161,7 @@ module.exports.resetPassword = async (req, res) => {
     })
   }
 
-  userExists[0].userPassword = bcrypt.hashSync(newPassword, 100)
+  userExists[0].userPassword = bcrypt.hashSync(newPassword, 10)
 
   await userExists[0].save()
   res.status(200).json({
