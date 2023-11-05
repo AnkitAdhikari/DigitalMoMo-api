@@ -2,7 +2,7 @@ const express = require("express")
 const app = express();
 const { connectDatabase } = require('./database/database');
 const authRoute = require('./routes/authRoute')
-const productRoute = require('./routes/productRoute')
+const productRoute = require('./routes/productRoute');
 
 // tell node to use DOTENV
 require('dotenv').config()
