@@ -3,6 +3,8 @@ const app = express();
 const { connectDatabase } = require('./database/database');
 const authRoute = require('./routes/authRoute')
 const productRoute = require('./routes/productRoute');
+const adminUsersRoute = require('./routes/adminUsersRoute')
+const userReviewRoute = require('./routes/userReviewRoute')
 
 // tell node to use DOTENV
 require('dotenv').config()
@@ -30,6 +32,8 @@ app.get('/', (req, res) => {
 
 app.use("/api", authRoute)
 app.use("/api", productRoute)
+app.use("/api", adminUsersRoute)
+app.use("/api", userReviewRoute)
 
 // app.post('/register', registerUser)
 
