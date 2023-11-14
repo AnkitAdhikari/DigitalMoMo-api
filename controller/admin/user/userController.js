@@ -1,6 +1,6 @@
 const User = require("../../../model/userModel");
 
-exports.getUser = async (req, res) => {
+exports.getUsers = async (req, res) => {
   const { id } = req.user;
   // console.log(req.user)
   const allUser = await User.find({ _id: { $ne: id } })
