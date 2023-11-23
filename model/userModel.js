@@ -28,7 +28,8 @@ const userSchema = new Schema({
   },
   otp: {
     type: Number
-  }
+  },
+  cart: [{ type: Schema.Types.ObjectId, ref: "Product" }]
 })
 
 const User = mongoose.model('User', userSchema);
