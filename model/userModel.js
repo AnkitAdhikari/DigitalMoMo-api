@@ -27,7 +27,13 @@ const userSchema = new Schema({
     default: "customer"
   },
   otp: {
-    type: Number
+    type: Number,
+    select: false
+  },
+  isOtpVerified: {
+    type: Boolean,
+    default: false,
+    select: false,
   },
   cart: [{ type: Schema.Types.ObjectId, ref: "Product" }]
 })

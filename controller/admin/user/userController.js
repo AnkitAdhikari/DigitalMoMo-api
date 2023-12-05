@@ -3,7 +3,9 @@ const User = require("../../../model/userModel");
 exports.getUsers = async (req, res) => {
   const { id } = req.user;
   // console.log(req.user)
-  const allUser = await User.find({ _id: { $ne: id } })
+
+  // only fetching the essential data for admin
+  const allUser = await User.find({ _id: { $ne: id } }).select("userEmail userName userPhoneNumber role")
   // console.log(allUser)
   if (allUser.length == 0) {
     return res.status(400).json({

@@ -13,11 +13,12 @@ exports.registerUser = async (req, res) => {
   }
 
   // checking if user already exist
-  const userFound = await User.find({ userName: username })
-  if (userFound.length > 0) {
+  const userFoundWithUserName = await User.find({ userName: username })
+  const userFoundWithUserEmail = await User.find({ userEmail: email })
+  if (userFoundWithUserEmail.length > 0 || userFoundWithUserName.length > 0) {
     return res.status(400).json({
       status: "failed",
-      message: "User with that email already exists"
+      message: "User with that username or email already exists"
     })
   }
 
