@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express();
+const { Server } = require('socket.io');
 const { connectDatabase } = require('./database/database');
 const authRoute = require('./routes/auth/authRoute')
 const productRoute = require('./routes/admin/productRoute');
@@ -14,6 +15,7 @@ const paymentRoute = require("./routes/user/paymentRoute");
 // tell node to use DOTENV
 require('dotenv').config()
 
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,6 +32,10 @@ app.get('/', (req, res) => {
     status: "Success",
     message: "Server is live"
   })
+})
+
+app.get('/chat', (req, res) => {
+  res.render('home.ejs');
 })
 
 
@@ -56,6 +62,14 @@ app.use("/api/payment", paymentRoute);
 
 // listen server
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is up and running at port ` + PORT)
+})
+
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  socket.on('hello', (data) => {
+    console.log('data');
+  })
 })
